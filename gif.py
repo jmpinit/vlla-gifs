@@ -1,5 +1,5 @@
+import os, sys, time
 from ctypes import *
-import os, sys
 from PIL import Image
 from subprocess import call
 
@@ -76,3 +76,4 @@ vllas = getVLLAs(getImagePaths(temppath))
 while True:
     for vlla in vllas:
         libvlla.vlla_update(vlla)
+        time.sleep(1.0 / 30)
