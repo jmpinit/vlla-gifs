@@ -39,9 +39,10 @@ def getVLLAs(imagePaths):
 
     root_vlla = vlla_init("/dev/ttyACM0", "/dev/ttyACM1")
 
+    # TODO faster with numpy
     for path in imagePaths:
         im = Image.open(path)
-        rgb_im = im.convert('RGB')
+        rgb_im = im.convert('RGBA')
         width, height = im.size
 
         w = min(width, 60)
@@ -53,7 +54,13 @@ def getVLLAs(imagePaths):
 
         for y in range(0, h):
             for x in range(0, w):
-                r, g, b = rgb_im.getpixel((x, y))
+                r, g, b, a = rgb_im.getpixel((x, y))
+                
+                if a < 128:
+                    r = 0
+                    g = 0
+                    b = 0
+
                 vlla.contents.pixels.contents[y*WIDTH+x] = c_uint((r << 16)|(g << 8)|b)
 
         vllas.append(vlla)
