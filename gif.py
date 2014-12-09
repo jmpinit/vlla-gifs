@@ -1,6 +1,7 @@
 from ctypes import *
 import os, sys
 from PIL import Image
+from subprocess import call
 
 libvlla = CDLL("libvlla.so")
 
@@ -62,8 +63,15 @@ if not len(sys.argv) == 2:
     print "not enough args"
     exit(1)
 
+tempdir = "/tmp/vlla-gif"
 gifpath = sys.argv[1]
-vllas = getVLLAs(getImagePaths(gifpath))
+temppath = tempdir + "/" + os.path.basename(gifpath)
+call(["rm", "-r", tempdir])
+call(["mkdir", "-p", tempdir])
+call(["cp", sys.argv[1], temppath])
+call(["cd " + tempdir + "; gifsicle -e " + temppath], shell=True)
+
+vllas = getVLLAs(getImagePaths(temppath))
 
 while True:
     for vlla in vllas:
