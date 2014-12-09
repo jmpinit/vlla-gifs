@@ -73,6 +73,7 @@ call(["cp", sys.argv[1], temppath])
 call(["cd " + tempdir + "; gifsicle -e " + temppath], shell=True)
 
 vllas = getVLLAs(getImagePaths(temppath))
+print "ready"
 
 while True:
     for vlla in vllas:
