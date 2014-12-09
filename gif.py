@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os, sys, time
 from ctypes import *
 from PIL import Image
